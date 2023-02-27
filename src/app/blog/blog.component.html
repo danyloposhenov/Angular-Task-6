@@ -1,0 +1,103 @@
+<div class="container">
+  <header class="header">
+    <ng-container *ngIf="headerSign">
+      <button type="button" id="btnSignIn" (click)="signIn()">Sign In</button>
+      <button type="button" id="btnSignUp" (click)="signUp()">Sign Up</button>
+    </ng-container>
+    <ng-container *ngIf="headerProfile">
+      <div class="header__tools">
+        <button type="button" id="btnAddPost" (click)="openAddPost()">Add post</button>
+        <p>{{ name }}</p>
+        <button type="button" id="btnSignOut" (click)="signOut()">Sign Out</button>
+      </div>
+    </ng-container>
+
+  </header>
+  <main class="main container-fluid">
+    <div class="item" *ngFor="let blog of blogs" >
+      <h1 class="item__title"> {{ blog.topic }} </h1>
+      <div class="item__info">
+        <p class="item__info-posted">Posted by: {{ blog.postedBy }} </p>
+        <p class="item__info-date"> {{ blog.date | date:'HH:mm, dd.MM.YYYY' }} </p>
+      </div>
+      <p class="item__message"> {{ blog.message }} </p>
+      <ng-container *ngIf=" name == 'admin' ? blog.postedBy : blog.postedBy == name  ">
+        <button type="button" class="btn btn-warning" (click)="editPost(blog)" >Edit</button>
+        <button type="button" class="btn btn-danger" (click)="deletePost(blog)">Delete</button>
+      </ng-container>
+    </div>
+  </main>
+</div>
+<ng-container *ngIf="openModal">
+  <div class="modal">
+    <div class="modal-sign" *ngIf="modalSignIn">
+      <div class="modal-sign__header">
+        <div class="modal-sign__header-title">Sign In</div>
+        <button class="modal-sign__header-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-sign__main">
+        <h2 class="modal-sign__main-title">Email:</h2>
+        <input type="text" id="emailSignIn" [(ngModel)]="email">
+        <h2 class="modal-sign__main-title">Password:</h2>
+        <input type="password" id="passwordSignIn" [(ngModel)]="password">
+      </div>
+      <div class="modal-sign__footer">
+        <button id="btnClose" (click)="closeModal()">Close</button>
+        <button id="btnSubmitSignIn" (click)="submitSignIn()">Submit</button>
+      </div>
+    </div>
+    <div class="modal-sign" *ngIf="modalSignUp">
+      <div class="modal-sign__header">
+        <div class="modal-sign__header-title">Sign Up</div>
+        <button class="modal-sign__header-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-sign__main">
+        <h2 class="modal-sign__main-title">Username:</h2>
+        <input type="text" id="userName" [(ngModel)]="userName">
+        <h2 class="modal-sign__main-title">Email:</h2>
+        <input type="text" id="emailSignUp" [(ngModel)]="email">
+        <h2 class="modal-sign__main-title">Password:</h2>
+        <input type="password" id="passwordSignUp" [(ngModel)]="password">
+      </div>
+      <div class="modal-sign__footer">
+        <button id="btnClose" (click)="closeModal()">Close</button>
+        <button id="btnSubmitSignIn" (click)="submitSignUp()">Submit</button>
+      </div>
+    </div>
+    <div class="modal-sign" *ngIf="modalAddPost">
+      <div class="modal-sign__header">
+        <div class="modal-sign__header-title">Add post</div>
+        <button class="modal-sign__header-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-sign__main">
+        <h2 class="modal-sign__main-title">Title:</h2>
+        <input type="text" id="title" [(ngModel)]="topic">
+        <h2 class="modal-sign__main-title">Text:</h2>
+        <textarea type="text" id="message" [(ngModel)]="message">{{ message }}</textarea>
+      </div>
+      <div class="modal-sign__footer">
+        <button id="btnClose" (click)="closeModal()">Close</button>
+        <button id="btnSubmitSignIn" (click)="addPost()">Post</button>
+      </div>
+    </div>
+    <div class="modal-sign" *ngIf="modalEditPost">
+      <div class="modal-sign__header">
+        <div class="modal-sign__header-title">Add post</div>
+        <button class="modal-sign__header-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-sign__main">
+        <h2 class="modal-sign__main-title">Title:</h2>
+        <input type="text" id="title" [(ngModel)]="topic">
+        <h2 class="modal-sign__main-title">Text:</h2>
+        <textarea type="text" id="message" [(ngModel)]="message">{{ message }}</textarea>
+      </div>
+      <div class="modal-sign__footer">
+        <button id="btnClose" (click)="closeModal()">Close</button>
+        <button id="btnSubmitSignIn" (click)="savePost()">edit</button>
+      </div>
+    </div>
+
+  </div>
+</ng-container>
+
+
